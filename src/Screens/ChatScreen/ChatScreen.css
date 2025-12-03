@@ -1,0 +1,21 @@
+.chat-screen {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-chat);
+}
+
+.chat-list-container {
+    flex: 1;
+    max-width: 350px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid #333;
+    overflow-y: auto;
+}
+
+.chat-detail-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-chat);
+}

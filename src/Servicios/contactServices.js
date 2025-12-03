@@ -5,12 +5,14 @@ function getContacts() {
 }
 
 function getContactById(id) {
-    const contact_found = contacts.find(contact => Number(contact.id) === Number(id));
-    if(!contact_found){
-        return null
-    }
-    else{
-        return contact_found
+    const contact_found = contacts.find(
+        (contact) => Number(contact.id) === Number(id)
+    );
+
+    if (!contact_found) {
+        return null;
+    } else {
+        return contact_found;
     }
 }
 

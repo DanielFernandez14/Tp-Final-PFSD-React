@@ -1,0 +1,7 @@
+.chat-item--active {
+    background-color: #333;
+}
+
+.chat-item--active:hover {
+    background-color: #3a3a3a;
+}

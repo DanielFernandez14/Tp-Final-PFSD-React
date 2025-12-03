@@ -1,30 +1,48 @@
-import React from 'react'
+import React from 'react';
+import './MessagesList.css';
 
 const MessagesList = ({ messages }) => {
     return (
-        <div>
+        <div className="message-list">
             {messages.length === 0 ? (
-                <span>Aun no has chateado, envia un mensaje para hacerlo</span>
+                <span className="message-list-empty">
+                    Aun no has chateado, envia un mensaje para hacerlo
+                </span>
             ) : (
                 messages.map((message) => {
+                    const isMe = message.sender === 'me';
+
                     return (
-                        <div key={message.id}>
-                            <h3>{message.author_name}</h3>
-                            <p>{message.content}</p>
-                            <span>{message.created_at}</span>
-                            <span>
+                        <div
+                            key={message.id}
+                            className={`message-item ${
+                                isMe ? 'message-me' : 'message-contact'
+                            } ${
+                                message.status === 'VIEWED'
+                                    ? 'message-read'
+                                    : 'message-unread'
+                            }`}
+                        >
+                            <h3 className="message-author">{message.author_name}</h3>
+                            <p className="message-content">{message.content}</p>
+                            <span className="message-date">{message.created_at}</span>
+                            <span className="message-status">
                                 {message.status === 'VIEWED'
                                     ? <span>Leído</span>
                                     : <span>No leído</span>
                                 }
                             </span>
-                            <hr />
+                            <hr className="message-divider" />
                         </div>
                     );
                 })
             )}
         </div>
-    );
-}
 
-export default MessagesList
+        
+    );
+    
+};
+
+
+export default MessagesList;

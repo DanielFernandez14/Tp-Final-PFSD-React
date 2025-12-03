@@ -1,29 +1,3 @@
-
-//  Estructura de un contacto con su mensajeria-> 
-
-/*
-  {
-    id,
-    user_id, -> id del usuario con el que estamos hablando
-    profile_pic, -> img de perfil del usuario
-    last_connection, "15:34"-> ultima conexion del usuario
-    status, -> isConected: true/false,
-
-
-    messages: -> [
-    {
-
-      id,
-      content -> "Hola, como estas?"-> contenido del mensaje
-      author_id -> id del autor del mensaje
-      created_at -> timestamp de creacion
-      status "visto/no visto" -> estado del mensaje
-
-    }
-    ]
-*/
-
-
 const contacts = [
     {
         id: 1,
@@ -40,11 +14,11 @@ const contacts = [
                 author_id: 1,
                 author_name: "Pepe",
                 created_at: "Hoy",
-                status: "visto"
+                status: "visto",
+                sender: "contact"
             }
         ]
-    }
-    ,
+    },
     {
         id: 2,
         user_id: 2,
@@ -60,11 +34,11 @@ const contacts = [
                 author_id: 2,
                 author_name: "Josh",
                 created_at: "Hoy",
-                status: "Visto"
+                status: "Visto",
+                sender: "contact" 
             }
         ]
     }
 ];
-
 
 export default contacts;
