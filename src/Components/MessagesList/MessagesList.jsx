@@ -7,37 +7,36 @@ const MessagesList = ({ messages, onDeleteMessage }) => {
         console.log('Mensaje copiado al portapapeles');
     };
 
+    const safeMessages = Array.isArray(messages) ? messages : [];
+
     return (
         <div className="message-list">
             <div className="message-list-inner">
-                {(!messages || messages.length === 0) ? (
+                {safeMessages.length === 0 ? (
                     <span className="message-list-empty">
                         No has chateado, envia un mensaje para hacerlo.
                     </span>
                 ) : (
-                    messages.map((message) => {
+                    safeMessages.map((message) => {
                         const isMe = message.sender === 'me';
                         const normalizedStatus = String(message.status || '').toLowerCase();
+
                         const isRead =
-                            message.read === true ||
-                            normalizedStatus === 'visto' ||
                             normalizedStatus === 'viewed' ||
-                            normalizedStatus === 'leido' ||
-                            normalizedStatus === 'leído';
+                            normalizedStatus === 'visto';
 
                         return (
                             <div
                                 key={message.id}
                                 className={`message-item ${
                                     isMe ? 'message-me' : 'message-contact'
-                                } ${
-                                    isRead
-                                        ? 'message-read'
-                                        : 'message-unread'
-                                }`}
+                                } ${isRead ? 'message-read' : 'message-unread'}`}
                             >
                                 <div className="message-header">
-                                    <h3 className="message-author">{message.author_name}</h3>
+                                    <h3 className="message-author">
+                                        {message.author_name}
+                                    </h3>
+
                                     <MessageOptions
                                         message={message}
                                         onDelete={onDeleteMessage}
@@ -45,9 +44,13 @@ const MessagesList = ({ messages, onDeleteMessage }) => {
                                         isOwnMessage={isMe}
                                     />
                                 </div>
+
                                 <p className="message-content">{message.content}</p>
+
                                 <div className="message-footer">
-                                    <span className="message-date">{message.created_at}</span>
+                                    <span className="message-date">
+                                        {message.created_at}
+                                    </span>
                                 </div>
                             </div>
                         );

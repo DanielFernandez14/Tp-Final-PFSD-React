@@ -14,7 +14,6 @@ const RANDOM_MESSAGES = [
     'Dale, lo vemos con más calma después.'
 ];
 
-
 const AutoReply = ({ active, onReply }) => {
     const [isTyping, setIsTyping] = useState(false);
 

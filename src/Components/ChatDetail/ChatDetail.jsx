@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import MessagesList from '../MessagesList/MessagesList';
 import CreateNewMessage from '../CreateNewMessage/CreateNewMessage';
 import AutoReply from '../AutoReply/AutoReply';
-import UserProfileModal from '../UserProfileModal/UserProfileModal';
-import EditContactModal from '../EditContactModal/EditContactModal';
 import ChatHeader from '../ChatHeader/ChatHeader';
 import './ChatDetail.css';
 
@@ -17,9 +15,6 @@ const ChatDetail = ({
     onShowContactInfo
 }) => {
     const [autoReplyActive, setAutoReplyActive] = useState(false);
-    const [messageCount, setMessageCount] = useState(0);
-    const [showProfileModal, setShowProfileModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
 
     const messagesEndRef = useRef(null);
     const navigate = useNavigate();
@@ -36,7 +31,6 @@ const ChatDetail = ({
 
     useEffect(() => {
         setAutoReplyActive(false);
-        setMessageCount(0);
     }, [chatDetail?.id]);
 
     if (!chatDetail) {
@@ -75,9 +69,7 @@ const ChatDetail = ({
     });
 
     const handleSendMessage = (text) => {
-        const newCount = messageCount + 1;
         createNewMessage(text, 'me');
-        setMessageCount(newCount);
         setAutoReplyActive(true);
     };
 
@@ -98,36 +90,7 @@ const ChatDetail = ({
     const handleHeaderClick = () => {
         if (onShowContactInfo) {
             onShowContactInfo();
-        } else {
-            setShowProfileModal(true);
         }
-    };
-
-    const handleCloseProfileModal = () => {
-        setShowProfileModal(false);
-    };
-
-    const handleOpenEditModal = () => {
-        setShowProfileModal(false);
-        setShowEditModal(true);
-    };
-
-    const handleCloseEditModal = () => {
-        setShowEditModal(false);
-    };
-
-    const handleSaveEditedContact = (updatedContact) => {
-        if (onEditContact) {
-            onEditContact(updatedContact);
-        }
-        setShowEditModal(false);
-    };
-
-    const handleDeleteContact = () => {
-        if (onDeleteContact) {
-            onDeleteContact(chatDetail.id);
-        }
-        setShowProfileModal(false);
     };
 
     return (
@@ -150,7 +113,6 @@ const ChatDetail = ({
                     <AutoReply
                         active={autoReplyActive}
                         onReply={handleAutoReply}
-                        messageCount={messageCount}
                     />
 
                     <div ref={messagesEndRef} />
@@ -160,23 +122,6 @@ const ChatDetail = ({
             <div className="chat-footer">
                 <CreateNewMessage createNewMessage={handleSendMessage} />
             </div>
-
-            {showProfileModal && (
-                <UserProfileModal
-                    contact={chatDetail}
-                    onClose={handleCloseProfileModal}
-                    onEditClick={handleOpenEditModal}
-                    onDeleteClick={handleDeleteContact}
-                />
-            )}
-
-            {showEditModal && (
-                <EditContactModal
-                    contact={chatDetail}
-                    onCancel={handleCloseEditModal}
-                    onSave={handleSaveEditedContact}
-                />
-            )}
         </div>
     );
 };

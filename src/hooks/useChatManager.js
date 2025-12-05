@@ -30,22 +30,35 @@ const useChatManager = (chatId) => {
         }, 1000);
     }
 
-    function addNewContact(name) {
-        const new_contact = {
-            id: Date.now(),
-            user_id: Date.now(),
+    function addNewContact(data) {
+        const name =
+            typeof data === 'string'
+                ? data
+                : (data && data.name) || '';
+
+        const phone =
+            typeof data === 'string'
+                ? ''
+                : (data && data.phone) || '';
+
+        const now = Date.now();
+
+        const newContact = {
+            id: now,
+            user_id: now,
             user_name: name,
-            profile_pic:
-                '/Bot/bot.avif',
+            phone: phone,
+            profile_pic: '/Bot/bot.avif',
             last_connection: 'Ahora',
             isConected: false,
             messages: [],
-            last_message_at: Date.now()
+            last_message_at: now
         };
 
         setContacts((prev) => {
-            if (!prev) return [new_contact];
-            const updated = [...prev, new_contact];
+            if (!prev) return [newContact];
+
+            const updated = [...prev, newContact];
             updated.sort((a, b) => b.last_message_at - a.last_message_at);
             return updated;
         });
@@ -60,28 +73,28 @@ const useChatManager = (chatId) => {
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
 
-        const new_message = {
+        const newMessage = {
             id: crypto.randomUUID(),
             content: message,
             author_id: isMe ? 0 : chatDetail.user_id,
             author_name: isMe ? 'Yo' : chatDetail.user_name,
             created_at: `Hoy ${hours}:${minutes}`,
             created_at_timestamp: now.getTime(),
-            status: isMe ? 'ENVIADO' : 'VISTO',
-            sender: sender,
-            read: isMe ? true : false
+            // única fuente de verdad para leído/no leído
+            status: 'VIEWED',
+            sender: sender
         };
 
-        setContacts((prev_state) => {
-            if (!prev_state) return prev_state;
+        setContacts((prevState) => {
+            if (!prevState) return prevState;
 
-            const updated = prev_state.map((chat) => {
+            const updated = prevState.map((chat) => {
                 if (Number(chat.id) === Number(chatId)) {
                     const isContactSender = sender === 'contact';
 
                     return {
                         ...chat,
-                        messages: [...chat.messages, new_message],
+                        messages: [...chat.messages, newMessage],
                         last_message_at: now.getTime(),
                         isConected: isContactSender ? true : chat.isConected,
                         last_connection: isContactSender
@@ -89,20 +102,20 @@ const useChatManager = (chatId) => {
                             : chat.last_connection
                     };
                 }
+
                 return chat;
             });
 
             updated.sort((a, b) => b.last_message_at - a.last_message_at);
-
             return updated;
         });
     }
 
     function deleteMessage(messageId) {
-        setContacts((prev_state) => {
-            if (!prev_state) return prev_state;
+        setContacts((prevState) => {
+            if (!prevState) return prevState;
 
-            const updated = prev_state.map((chat) => {
+            const updated = prevState.map((chat) => {
                 if (Number(chat.id) === Number(chatId)) {
                     return {
                         ...chat,
@@ -110,6 +123,7 @@ const useChatManager = (chatId) => {
                         last_message_at: Date.now()
                     };
                 }
+
                 return chat;
             });
 
@@ -118,12 +132,13 @@ const useChatManager = (chatId) => {
     }
 
     function loadChatDetail() {
-        if (contacts && !loading && chatId) {
-            const chat_selected = contacts.find(
-                (contact) => Number(contact.id) === Number(chatId)
-            );
-            setChatDetail(chat_selected || null);
-        }
+        if (!contacts || loading || !chatId) return;
+
+        const chatSelected = contacts.find(
+            (contact) => Number(contact.id) === Number(chatId)
+        );
+
+        setChatDetail(chatSelected || null);
     }
 
     useEffect(loadContacts, []);
@@ -135,6 +150,7 @@ const useChatManager = (chatId) => {
 
             return prev.map((contact) => {
                 if (Number(contact.id) !== Number(updatedContact.id)) return contact;
+
                 return {
                     ...contact,
                     ...updatedContact
@@ -147,6 +163,7 @@ const useChatManager = (chatId) => {
             if (Number(prevChatDetail.id) !== Number(updatedContact.id)) {
                 return prevChatDetail;
             }
+
             return {
                 ...prevChatDetail,
                 ...updatedContact
@@ -157,6 +174,7 @@ const useChatManager = (chatId) => {
     function handleDeleteContact(contactId) {
         setContacts((prev) => {
             if (!prev) return prev;
+
             return prev.filter(
                 (contact) => Number(contact.id) !== Number(contactId)
             );
@@ -164,9 +182,11 @@ const useChatManager = (chatId) => {
 
         setChatDetail((prevChatDetail) => {
             if (!prevChatDetail) return prevChatDetail;
+
             if (Number(prevChatDetail.id) === Number(contactId)) {
                 return null;
             }
+
             return prevChatDetail;
         });
 

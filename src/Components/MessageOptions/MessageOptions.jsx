@@ -8,10 +8,13 @@ const MessageOptions = ({ message, onDelete, onCopy, isOwnMessage }) => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
+            const menuEl = menuRef.current;
+            const buttonEl = buttonRef.current;
+
             if (
-                menuRef.current &&
-                !menuRef.current.contains(event.target) &&
-                !buttonRef.current.contains(event.target)
+                menuEl &&
+                !menuEl.contains(event.target) &&
+                (!buttonEl || !buttonEl.contains(event.target))
             ) {
                 setIsOpen(false);
             }
@@ -26,21 +29,30 @@ const MessageOptions = ({ message, onDelete, onCopy, isOwnMessage }) => {
         };
     }, [isOpen]);
 
-    const handleToggle = (e) => {
-        e.stopPropagation();
-        setIsOpen(!isOpen);
+    const handleToggle = (event) => {
+        event.stopPropagation();
+        setIsOpen((prev) => !prev);
     };
 
-    const handleDelete = (e) => {
-        e.stopPropagation();
-        onDelete(message.id);
+    const handleDelete = (event) => {
+        event.stopPropagation();
+        if (onDelete) {
+            onDelete(message.id);
+        }
         setIsOpen(false);
     };
 
-    const handleCopy = (e) => {
-        e.stopPropagation();
-        navigator.clipboard.writeText(message.content);
-        onCopy && onCopy();
+    const handleCopy = (event) => {
+        event.stopPropagation();
+
+        if (navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText(message.content);
+        }
+
+        if (onCopy) {
+            onCopy();
+        }
+
         setIsOpen(false);
     };
 
@@ -56,11 +68,13 @@ const MessageOptions = ({ message, onDelete, onCopy, isOwnMessage }) => {
             </button>
 
             {isOpen && (
-                <div 
-                    ref={menuRef} 
-                    className={`message-options-menu ${isOwnMessage ? 'menu-right' : 'menu-left'}`}
+                <div
+                    ref={menuRef}
+                    className={`message-options-menu ${
+                        isOwnMessage ? 'menu-right' : 'menu-left'
+                    }`}
                 >
-                    <button 
+                    <button
                         className="menu-option"
                         onClick={handleCopy}
                     >
@@ -69,7 +83,7 @@ const MessageOptions = ({ message, onDelete, onCopy, isOwnMessage }) => {
                     </button>
 
                     {isOwnMessage && (
-                        <button 
+                        <button
                             className="menu-option menu-option-danger"
                             onClick={handleDelete}
                         >

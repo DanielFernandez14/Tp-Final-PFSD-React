@@ -75,31 +75,20 @@
     border-color: #00a884;
 }
 
+.contact-info-phone {
+    font-size: 15px;
+    color: #e9edef;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
 .contact-info-status {
     margin-top: 8px;
     color: #8696a0;
     font-size: 14px;
 }
 
-.contact-info-footer {
-    padding: 16px 20px;
-    border-top: 1px solid #2a3942;
-}
-
-.contact-info-save-btn {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    background-color: #00a884;
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.contact-info-save-btn:hover {
-    background-color: #029c7d;
-}
 .contact-info-footer {
     padding: 16px 20px;
     border-top: 1px solid #2a3942;

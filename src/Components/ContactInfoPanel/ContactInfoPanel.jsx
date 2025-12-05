@@ -6,6 +6,8 @@ const ContactInfoPanel = ({ contact, onClose, onSave, onDelete }) => {
         contact.user_name || contact.author_name || contact.name || ''
     );
 
+    const phone = contact.phone || '';
+
     const isOnline = contact.isConected;
     const statusText = isOnline
         ? 'En línea'
@@ -14,10 +16,13 @@ const ContactInfoPanel = ({ contact, onClose, onSave, onDelete }) => {
         : 'Desconectado';
 
     const handleSave = () => {
-        onSave({
-            ...contact,
-            user_name: editedName
-        });
+        if (onSave) {
+            onSave({
+                ...contact,
+                user_name: editedName,
+                phone: phone
+            });
+        }
         onClose();
     };
 
@@ -50,7 +55,7 @@ const ContactInfoPanel = ({ contact, onClose, onSave, onDelete }) => {
                 )}
 
                 <label className="contact-info-label" htmlFor="contact-name">
-                    Nombre
+                    Nombre:
                 </label>
                 <input
                     id="contact-name"
@@ -59,6 +64,13 @@ const ContactInfoPanel = ({ contact, onClose, onSave, onDelete }) => {
                     value={editedName}
                     onChange={(event) => setEditedName(event.target.value)}
                 />
+
+                <label className="contact-info-label">
+                    Teléfono:
+                </label>
+                <p className="contact-info-phone">
+                    {phone}
+                </p>
 
                 <p className="contact-info-status">{statusText}</p>
             </div>
