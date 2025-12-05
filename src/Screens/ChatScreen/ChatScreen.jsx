@@ -43,7 +43,7 @@ const ChatScreen = () => {
             profile_pic:
                 "https://img.freepik.com/vector-gratis/icono-personaje-tecnologia-robot-ai_24877-83742.jpg?semt=ais_hybrid&w=740&q=80",
             last_connection: "Ahora",
-            isConected: true,
+            isConected: false, // arranca desconectado
             messages: [],
             last_message_at: Date.now()
         };
@@ -61,12 +61,17 @@ const ChatScreen = () => {
 
         const isMe = sender === 'me';
 
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
         const new_message = {
             id: crypto.randomUUID(),
             content: message,
             author_id: isMe ? 0 : chatDetail.user_id,
             author_name: isMe ? 'Yo' : chatDetail.user_name,
-            created_at: "Hoy",
+            created_at: `Hoy ${hours}:${minutes}`,
+            created_at_timestamp: now.getTime(),
             status: isMe ? 'ENVIADO' : 'VISTO',
             sender: sender,
             read: isMe ? true : false
@@ -77,10 +82,18 @@ const ChatScreen = () => {
 
             const updated = prev_state.map((chat) => {
                 if (Number(chat.id) === Number(chat_id)) {
+                    const isContactSender = sender === 'contact';
+
                     return {
                         ...chat,
                         messages: [...chat.messages, new_message],
-                        last_message_at: Date.now()
+                        last_message_at: now.getTime(),
+                        // si el mensaje lo manda el contacto, lo marcamos "En línea"
+                        isConected: isContactSender ? true : chat.isConected,
+                        // opcional: actualizamos última conexión cuando responde el contacto
+                        last_connection: isContactSender
+                            ? `Hoy ${hours}:${minutes}`
+                            : chat.last_connection
                     };
                 }
                 return chat;
@@ -100,7 +113,7 @@ const ChatScreen = () => {
                 if (Number(chat.id) === Number(chat_id)) {
                     return {
                         ...chat,
-                        messages: chat.messages.filter(msg => msg.id !== messageId),
+                        messages: chat.messages.filter((msg) => msg.id !== messageId),
                         last_message_at: Date.now()
                     };
                 }
@@ -122,6 +135,48 @@ const ChatScreen = () => {
 
     useEffect(loadChatDetail, [chat_id, contacts]);
     useEffect(loadContacts, []);
+
+    function handleEditContact(updatedContact) {
+        setContacts((prev) => {
+            if (!prev) return prev;
+
+            return prev.map((contact) => {
+                if (Number(contact.id) !== Number(updatedContact.id)) return contact;
+                return {
+                    ...contact,
+                    ...updatedContact
+                };
+            });
+        });
+
+        setChatDetail((prevChatDetail) => {
+            if (!prevChatDetail) return prevChatDetail;
+            if (Number(prevChatDetail.id) !== Number(updatedContact.id)) {
+                return prevChatDetail;
+            }
+            return {
+                ...prevChatDetail,
+                ...updatedContact
+            };
+        });
+    }
+
+    function handleDeleteContact(contactId) {
+        setContacts((prev) => {
+            if (!prev) return prev;
+            return prev.filter(
+                (contact) => Number(contact.id) !== Number(contactId)
+            );
+        });
+
+        setChatDetail((prevChatDetail) => {
+            if (!prevChatDetail) return prevChatDetail;
+            if (Number(prevChatDetail.id) === Number(contactId)) {
+                return null;
+            }
+            return prevChatDetail;
+        });
+    }
 
     const isChatActive = chat_id && chatDetail;
 
@@ -155,6 +210,8 @@ const ChatScreen = () => {
                         chatDetail={chatDetail}
                         createNewMessage={createNewMessage}
                         deleteMessage={deleteMessage}
+                        onEditContact={handleEditContact}
+                        onDeleteContact={handleDeleteContact}
                     />
                 )}
 

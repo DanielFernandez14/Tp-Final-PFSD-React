@@ -3,11 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import MessagesList from '../MessagesList/MessagesList';
 import CreateNewMessage from '../CreateNewMessage/CreateNewMessage';
 import AutoReply from '../AutoReply/AutoReply';
+import UserProfileModal from '../UserProfileModal/UserProfileModal';
+import EditContactModal from '../EditContactModal/EditContactModal';
 import './ChatDetail.css';
 
-const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
+const ChatDetail = ({
+    chatDetail,
+    createNewMessage,
+    deleteMessage,
+    onEditContact,
+    onDeleteContact
+}) => {
     const [autoReplyActive, setAutoReplyActive] = useState(false);
     const [messageCount, setMessageCount] = useState(0);
+    const [showProfileModal, setShowProfileModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+
     const messagesEndRef = useRef(null);
     const navigate = useNavigate();
 
@@ -43,6 +54,24 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
         );
     }
 
+    const contactName =
+        chatDetail.user_name || chatDetail.author_name || chatDetail.name || 'Contacto';
+
+    let contactStatus;
+    if (chatDetail.isConected) {
+        contactStatus = 'En línea';
+    } else if (chatDetail.last_connection) {
+        contactStatus = `Última conexión: ${chatDetail.last_connection}`;
+    } else {
+        contactStatus = 'Desconectado';
+    }
+
+    const sortedMessages = [...(chatDetail.messages || [])].sort((a, b) => {
+        const aTime = a.created_at_timestamp ?? 0;
+        const bTime = b.created_at_timestamp ?? 0;
+        return aTime - bTime;
+    });
+
     const handleSendMessage = (text) => {
         const newCount = messageCount + 1;
         createNewMessage(text, 'me');
@@ -55,7 +84,8 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
         setAutoReplyActive(false);
     };
 
-    const handleBackClick = () => {
+    const handleBackClick = (event) => {
+        event.stopPropagation();
         navigate('/chat');
     };
 
@@ -63,35 +93,71 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
         deleteMessage(messageId);
     };
 
-    const contactName =
-        chatDetail.user_name || chatDetail.author_name || chatDetail.name || 'Contacto';
+    const handleHeaderClick = () => {
+        setShowProfileModal(true);
+    };
+
+    const handleCloseProfileModal = () => {
+        setShowProfileModal(false);
+    };
+
+    const handleOpenEditModal = () => {
+        setShowProfileModal(false);
+        setShowEditModal(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setShowEditModal(false);
+    };
+
+    const handleSaveEditedContact = (updatedContact) => {
+        if (onEditContact) {
+            onEditContact(updatedContact);
+        }
+        setShowEditModal(false);
+    };
+
+    const handleDeleteContact = () => {
+        if (onDeleteContact) {
+            onDeleteContact(chatDetail.id);
+        }
+        setShowProfileModal(false);
+    };
 
     return (
         <div className="chat-detail">
-            <div className="chat-header">
+            <div
+                className="chat-header"
+                onClick={handleHeaderClick}
+            >
                 <button
-                    className="back-button"
+                    className="back-button chat-header-back-button"
                     onClick={handleBackClick}
                     aria-label="Volver"
                 >
                     ←
                 </button>
 
-                {chatDetail.profile_pic && (
-                    <img
-                        src={chatDetail.profile_pic}
-                        alt={contactName}
-                        className="chat-header-avatar"
-                    />
-                )}
+                <div className="chat-header-info">
+                    {chatDetail.profile_pic && (
+                        <img
+                            src={chatDetail.profile_pic}
+                            alt={contactName}
+                            className="chat-header-avatar"
+                        />
+                    )}
 
-                <h2>{contactName}</h2>
+                    <div className="chat-header-text">
+                        <h2 className="chat-header-name">{contactName}</h2>
+                        <span className="chat-header-status">{contactStatus}</span>
+                    </div>
+                </div>
             </div>
 
             <div className="messages-container">
                 <div className="messages-container-inner">
                     <MessagesList
-                        messages={chatDetail.messages}
+                        messages={sortedMessages}
                         onDeleteMessage={handleDeleteMessage}
                     />
 
@@ -108,6 +174,23 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
             <div className="chat-footer">
                 <CreateNewMessage createNewMessage={handleSendMessage} />
             </div>
+
+            {showProfileModal && (
+                <UserProfileModal
+                    contact={chatDetail}
+                    onClose={handleCloseProfileModal}
+                    onEditClick={handleOpenEditModal}
+                    onDeleteClick={handleDeleteContact}
+                />
+            )}
+
+            {showEditModal && (
+                <EditContactModal
+                    contact={chatDetail}
+                    onCancel={handleCloseEditModal}
+                    onSave={handleSaveEditedContact}
+                />
+            )}
         </div>
     );
 };

@@ -7,7 +7,7 @@ const contacts = [
         read: true,
         profile_pic: "/Personajes/1.png",
         last_connection: "Hoy 15:34",
-        isConected: true,
+        isConected: false,
         messages: [
             {
                 id: 1,
@@ -44,8 +44,8 @@ const contacts = [
     {
         id: 2,
         user_id: 2,
-        author_name: "Josh",
-        user_name: "Josh",
+        author_name: "Chino",
+        user_name: "Chino",
         read: false,
         profile_pic: "/Personajes/2.png",
         last_connection: "Hoy 16:24",
@@ -55,7 +55,7 @@ const contacts = [
                 id: 4,
                 content: "Che, ¿ya armaste el Chat-UTN?",
                 author_id: 2,
-                author_name: "Josh",
+                author_name: "Chino",
                 created_at: "Hoy 16:10",
                 status: "NOT_VIEWED",
                 sender: "contact",

@@ -5,7 +5,6 @@ import ContactSearchBar from "../../Components/ContactSearchBar/ContactSearchBar
 import './ChatList.css';
 
 const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
-
     const [searchTerm, setSearchTerm] = useState('');
 
     if (!contacts) return null;
@@ -34,13 +33,11 @@ const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
                     filteredContacts.map((contact) => (
                         <div
                             key={contact.id}
-                            className={
-                                `chat-item ${
-                                    Number(contact.id) === Number(selectedChatId)
-                                        ? 'chat-item--active'
-                                        : ''
-                                }`
-                            }
+                            className={`chat-item ${
+                                Number(contact.id) === Number(selectedChatId)
+                                    ? 'chat-item--active'
+                                    : ''
+                            }`}
                         >
                             <Link to={`/chat/${contact.id}`} className="chat-item-link">
                                 <img
@@ -50,13 +47,18 @@ const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
                                 />
                                 <div className="chat-item-info">
                                     <h2>{contact.user_name}</h2>
-                                    <span>Última conexión: {contact.last_connection}</span>
+                                    <span>
+                                        {contact.isConected
+                                            ? 'En línea'
+                                            : `Última conexión: ${contact.last_connection}`}
+                                    </span>
                                 </div>
                             </Link>
                         </div>
                     ))
                 )}
             </div>
+
             <div className="chat-list-add-contact">
                 <AddNewContact addNewContact={addNewContact} />
             </div>

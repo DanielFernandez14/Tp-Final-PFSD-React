@@ -1,0 +1,81 @@
+.up-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.up-modal-content {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 24px 20px 20px 20px;
+    min-width: 320px;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.up-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.up-modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.up-modal-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.up-modal-name {
+    font-size: 20px;
+    margin: 0;
+}
+
+.up-modal-status {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.up-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.up-modal-button {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.up-modal-button-edit {
+    background-color: #2d7ef7;
+    color: #ffffff;
+}
+
+.up-modal-button-delete {
+    background-color: #e53935;
+    color: #ffffff;
+}
