@@ -5,6 +5,7 @@ import CreateNewMessage from '../CreateNewMessage/CreateNewMessage';
 import AutoReply from '../AutoReply/AutoReply';
 import UserProfileModal from '../UserProfileModal/UserProfileModal';
 import EditContactModal from '../EditContactModal/EditContactModal';
+import ChatHeader from '../ChatHeader/ChatHeader';
 import './ChatDetail.css';
 
 const ChatDetail = ({
@@ -56,16 +57,16 @@ const ChatDetail = ({
     }
 
     const contactName =
-        chatDetail.user_name || chatDetail.author_name || chatDetail.name || 'Contacto';
+        chatDetail.user_name ||
+        chatDetail.author_name ||
+        chatDetail.name ||
+        'Contacto';
 
-    let contactStatus;
-    if (chatDetail.isConected) {
-        contactStatus = 'En línea';
-    } else if (chatDetail.last_connection) {
-        contactStatus = `Última conexión: ${chatDetail.last_connection}`;
-    } else {
-        contactStatus = 'Desconectado';
-    }
+    const contactStatus = chatDetail.isConected
+        ? 'En línea'
+        : chatDetail.last_connection
+        ? `Última conexión: ${chatDetail.last_connection}`
+        : 'Desconectado';
 
     const sortedMessages = [...(chatDetail.messages || [])].sort((a, b) => {
         const aTime = a.created_at_timestamp ?? 0;
@@ -97,9 +98,9 @@ const ChatDetail = ({
     const handleHeaderClick = () => {
         if (onShowContactInfo) {
             onShowContactInfo();
-            return;
+        } else {
+            setShowProfileModal(true);
         }
-        setShowProfileModal(true);
     };
 
     const handleCloseProfileModal = () => {
@@ -131,41 +132,13 @@ const ChatDetail = ({
 
     return (
         <div className="chat-detail">
-            <div className="chat-header">
-                <button
-                    className="back-button chat-header-back-button"
-                    onClick={handleBackClick}
-                    aria-label="Volver"
-                >
-                    ←
-                </button>
-
-                <div
-                    className="chat-header-info"
-                    onClick={handleHeaderClick}
-                >
-                    {chatDetail.profile_pic && (
-                        <img
-                            src={chatDetail.profile_pic}
-                            alt={contactName}
-                            className="chat-header-avatar"
-                        />
-                    )}
-
-                    <div className="chat-header-text">
-                        <h2 className="chat-header-name">{contactName}</h2>
-                        <span className="chat-header-status">{contactStatus}</span>
-                    </div>
-                </div>
-
-                <button
-                    className="chat-header-menu-button"
-                    onClick={handleHeaderClick}
-                    aria-label="Opciones de contacto"
-                >
-                    ⋮
-                </button>
-            </div>
+            <ChatHeader
+                contactName={contactName}
+                contactStatus={contactStatus}
+                profilePic={chatDetail.profile_pic}
+                onBack={handleBackClick}
+                onHeaderClick={handleHeaderClick}
+            />
 
             <div className="messages-container">
                 <div className="messages-container-inner">
