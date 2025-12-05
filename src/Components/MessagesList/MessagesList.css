@@ -89,7 +89,6 @@
     display: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .message-item {
         max-width: 80%;

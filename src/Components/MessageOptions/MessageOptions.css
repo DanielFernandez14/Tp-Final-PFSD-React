@@ -118,7 +118,6 @@
     flex: 1;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .message-options-button {
         opacity: 1;

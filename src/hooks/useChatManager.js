@@ -80,7 +80,6 @@ const useChatManager = (chatId) => {
             author_name: isMe ? 'Yo' : chatDetail.user_name,
             created_at: `Hoy ${hours}:${minutes}`,
             created_at_timestamp: now.getTime(),
-            // única fuente de verdad para leído/no leído
             status: 'VIEWED',
             sender: sender
         };
