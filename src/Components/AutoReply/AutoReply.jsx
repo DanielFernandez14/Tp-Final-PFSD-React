@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import TypingIndicator from '../TypingIndicator/TypingIndicator';
 
 const RANDOM_MESSAGES = [
-    'Hola, soy el bot...',
-    'Interesante, contame más...',
-    'Ahora estoy ocupado, te respondo después...',
-    'Jajaja, muy bueno',
-    'No estoy seguro, ¿me lo explicás mejor?',
+    'Sí, te entiendo. ¿Me contás un poco más?',
+    'Ok, suena interesante eso que decís.',
+    'Jajaja, me hizo gracia lo que dijiste',
+    'Mmm, no estoy del todo seguro, pero suena lógico.',
+    'Claro, puedo darte una mano con eso.',
+    'Bien, ¿y cómo te hace sentir eso?',
+    'Opa, eso no me lo esperaba.',
+    'Entiendo. ¿Qué pensás hacer con eso entonces?',
+    'Perfecto, quedamos así entonces.',
+    'Dale, lo vemos con más calma después.'
 ];
+
 
 const AutoReply = ({ active, onReply }) => {
     const [isTyping, setIsTyping] = useState(false);

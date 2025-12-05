@@ -51,7 +51,7 @@
 .chat-list-add-contact form button[type="submit"] {
     width: 100%;
     padding: 10px 16px;
-    background-color: #00a884;
+    background-color: #00a889c7;
     border: none;
     border-radius: 8px;
     color: #ffffff;
@@ -63,13 +63,13 @@
 }
 
 .chat-list-add-contact form button[type="submit"]:hover {
-    background-color: #06cf9c;
+    background-color: #00826193;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 168, 132, 0.3);
 }
 
 .chat-list-add-contact form button[type="submit"]:active {
-    background-color: #008f6c;
+    background-color: #00826193;
     transform: translateY(0);
     box-shadow: none;
 }

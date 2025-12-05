@@ -52,7 +52,6 @@
     padding: 20px;
 }
 
-/* Responsive Tablets */
 @media (max-width: 1024px) {
     .chat-list-container {
         width: 35%;
@@ -60,7 +59,6 @@
     }
 }
 
-/* Responsive Mobile */
 @media (max-width: 768px) {
     .chat-screen {
         position: relative;
@@ -90,7 +88,6 @@
         display: none;
     }
 
-    /* Cuando hay un chat seleccionado, mostrar solo el detalle */
     .chat-screen.chat-active .chat-list-container {
         display: none;
     }

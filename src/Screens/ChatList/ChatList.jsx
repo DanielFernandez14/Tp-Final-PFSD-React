@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AddNewContact from "../../Components/AddNewContact/AddNewContact";
 import ContactSearchBar from "../../Components/ContactSearchBar/ContactSearchBar";
@@ -6,6 +6,11 @@ import './ChatList.css';
 
 const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const listRef = useRef(null);
+    useEffect(() => {
+        if (!listRef.current || !contacts) return;
+        listRef.current.scrollTop = 0;
+    }, [contacts?.length]);
 
     if (!contacts) return null;
 
@@ -44,7 +49,7 @@ const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
                 onSearchChange={setSearchTerm}
             />
 
-            <div className="chat-list-items">
+            <div className="chat-list-items" ref={listRef}>
                 {filteredContacts.length === 0 ? (
                     <span className="no-contacts">
                         No se encontraron contactos

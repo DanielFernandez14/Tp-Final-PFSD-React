@@ -4,7 +4,6 @@ import './MessagesList.css';
 
 const MessagesList = ({ messages, onDeleteMessage }) => {
     const handleCopySuccess = () => {
-        // Opcional: Mostrar un toast/notificación
         console.log('Mensaje copiado al portapapeles');
     };
 

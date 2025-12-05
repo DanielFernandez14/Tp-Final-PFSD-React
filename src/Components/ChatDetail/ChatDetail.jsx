@@ -12,7 +12,8 @@ const ChatDetail = ({
     createNewMessage,
     deleteMessage,
     onEditContact,
-    onDeleteContact
+    onDeleteContact,
+    onShowContactInfo
 }) => {
     const [autoReplyActive, setAutoReplyActive] = useState(false);
     const [messageCount, setMessageCount] = useState(0);
@@ -94,6 +95,10 @@ const ChatDetail = ({
     };
 
     const handleHeaderClick = () => {
+        if (onShowContactInfo) {
+            onShowContactInfo();
+            return;
+        }
         setShowProfileModal(true);
     };
 
@@ -126,10 +131,7 @@ const ChatDetail = ({
 
     return (
         <div className="chat-detail">
-            <div
-                className="chat-header"
-                onClick={handleHeaderClick}
-            >
+            <div className="chat-header">
                 <button
                     className="back-button chat-header-back-button"
                     onClick={handleBackClick}
@@ -138,7 +140,10 @@ const ChatDetail = ({
                     ←
                 </button>
 
-                <div className="chat-header-info">
+                <div
+                    className="chat-header-info"
+                    onClick={handleHeaderClick}
+                >
                     {chatDetail.profile_pic && (
                         <img
                             src={chatDetail.profile_pic}
@@ -152,6 +157,14 @@ const ChatDetail = ({
                         <span className="chat-header-status">{contactStatus}</span>
                     </div>
                 </div>
+
+                <button
+                    className="chat-header-menu-button"
+                    onClick={handleHeaderClick}
+                    aria-label="Opciones de contacto"
+                >
+                    ⋮
+                </button>
             </div>
 
             <div className="messages-container">

@@ -5,11 +5,17 @@ import { useParams } from 'react-router-dom';
 import ChatDetail from '../../Components/ChatDetail/ChatDetail';
 import './ChatScreen.css';
 
+// 🔹 NUEVO: importamos el panel lateral de info
+import ContactInfoPanel from '../../Components/ContactInfoPanel/ContactInfoPanel';
+
 const ChatScreen = () => {
     const [contacts, setContacts] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [chatDetail, setChatDetail] = useState(null);
+
+    // 🔹 NUEVO: controlar si se muestra el panel de información
+    const [showContactInfo, setShowContactInfo] = useState(false);
 
     const { chat_id } = useParams();
 
@@ -43,7 +49,7 @@ const ChatScreen = () => {
             profile_pic:
                 "https://img.freepik.com/vector-gratis/icono-personaje-tecnologia-robot-ai_24877-83742.jpg?semt=ais_hybrid&w=740&q=80",
             last_connection: "Ahora",
-            isConected: false, // arranca desconectado
+            isConected: false,
             messages: [],
             last_message_at: Date.now()
         };
@@ -88,9 +94,7 @@ const ChatScreen = () => {
                         ...chat,
                         messages: [...chat.messages, new_message],
                         last_message_at: now.getTime(),
-                        // si el mensaje lo manda el contacto, lo marcamos "En línea"
                         isConected: isContactSender ? true : chat.isConected,
-                        // opcional: actualizamos última conexión cuando responde el contacto
                         last_connection: isContactSender
                             ? `Hoy ${hours}:${minutes}`
                             : chat.last_connection
@@ -176,7 +180,22 @@ const ChatScreen = () => {
             }
             return prevChatDetail;
         });
+
+
+        setShowContactInfo(false);
     }
+
+    function handleShowContactInfo() {
+        setShowContactInfo(true);
+    }
+
+    function handleCloseContactInfo() {
+        setShowContactInfo(false);
+    }
+
+    useEffect(() => {
+        setShowContactInfo(false);
+    }, [chat_id]);
 
     const isChatActive = chat_id && chatDetail;
 
@@ -212,6 +231,7 @@ const ChatScreen = () => {
                         deleteMessage={deleteMessage}
                         onEditContact={handleEditContact}
                         onDeleteContact={handleDeleteContact}
+                        onShowContactInfo={handleShowContactInfo}
                     />
                 )}
 
@@ -219,6 +239,14 @@ const ChatScreen = () => {
                     <h2 className="no-chat-selected">
                         El chat seleccionado no existe
                     </h2>
+                )}
+
+                {showContactInfo && chat_id && chatDetail && (
+                    <ContactInfoPanel
+                        contact={chatDetail}
+                        onClose={handleCloseContactInfo}
+                        onSave={handleEditContact}
+                    />
                 )}
             </div>
         </div>
