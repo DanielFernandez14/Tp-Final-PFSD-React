@@ -16,6 +16,10 @@ const ChatList = ({ contacts, addNewContact, selectedChatId }) => {
 
     return (
         <div className="chat-list">
+            <div className="chat-list-header">
+                <h1>Chat-UTN</h1>
+            </div>
+
             <ContactSearchBar
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}

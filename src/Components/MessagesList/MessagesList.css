@@ -1,61 +1,112 @@
 .message-list {
     display: flex;
     flex-direction: column;
-    padding: 8px;
+    gap: 8px;
+    width: 100%;
+}
+
+.message-list-inner {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
 }
 
 .message-list-empty {
-    font-style: italic;
-    color: #777;
+    color: #667781;
+    font-size: 14px;
+    text-align: center;
+    padding: 40px 20px;
 }
 
 .message-item {
-    max-width: 70%;
+    display: flex;
+    flex-direction: column;
     padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 0.95rem;
+    border-radius: 8px;
+    max-width: 65%;
+    word-wrap: break-word;
+    position: relative;
+    transition: background-color 0.2s ease;
 }
 
 .message-me {
+    background-color: #005c4b;
+    align-self: flex-end;
     margin-left: auto;
-    background-color: #dcf8c6;
-    text-align: right;
 }
 
 .message-contact {
+    background-color: #202c33;
+    align-self: flex-start;
     margin-right: auto;
-    background-color: #ffffff;
-    text-align: left;
 }
 
-.message-read {
-    opacity: 0.9;
-}
-
-.message-unread {
-    font-weight: 500;
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
 .message-author {
-    margin: 0 0 4px 0;
-    font-size: 0.85rem;
+    color: #00a884;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+}
+
+.message-me .message-author {
+    color: #a5f3c5;
 }
 
 .message-content {
-    margin: 0 0 4px 0;
+    color: #e9edef;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 6px 0;
+    word-break: break-word;
 }
 
-.message-date,
+.message-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+}
+
+.message-date {
+    color: #8696a0;
+    font-size: 11px;
+}
+
 .message-status {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: #777;
-    margin-right: 4px;
+    display: none;
 }
 
 .message-divider {
-    border: none;
-    border-bottom: 1px solid #ddd;
-    margin-top: 6px;
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .message-item {
+        max-width: 80%;
+        padding: 6px 10px;
+    }
+
+    .message-content {
+        font-size: 13px;
+    }
+
+    .message-author {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-item {
+        max-width: 85%;
+    }
 }

@@ -19,7 +19,13 @@ const ChatScreen = () => {
 
         setTimeout(() => {
             try {
-                const data = getContacts();
+                const data = getContacts()
+                    .map((contact) => ({
+                        ...contact,
+                        last_message_at: contact.last_message_at || 0
+                    }))
+                    .sort((a, b) => b.last_message_at - a.last_message_at);
+
                 setContacts(data);
             } catch (err) {
                 setError('Error al cargar los contactos');
@@ -38,10 +44,16 @@ const ChatScreen = () => {
                 "https://img.freepik.com/vector-gratis/icono-personaje-tecnologia-robot-ai_24877-83742.jpg?semt=ais_hybrid&w=740&q=80",
             last_connection: "Ahora",
             isConected: true,
-            messages: []
+            messages: [],
+            last_message_at: Date.now()
         };
 
-        setContacts((prev) => [...prev, new_contact]);
+        setContacts((prev) => {
+            if (!prev) return [new_contact];
+            const updated = [...prev, new_contact];
+            updated.sort((a, b) => b.last_message_at - a.last_message_at);
+            return updated;
+        });
     }
 
     function createNewMessage(message, sender = 'me') {
@@ -56,20 +68,47 @@ const ChatScreen = () => {
             author_name: isMe ? 'Yo' : chatDetail.user_name,
             created_at: "Hoy",
             status: isMe ? 'ENVIADO' : 'VISTO',
-            sender: sender
+            sender: sender,
+            read: isMe ? true : false
         };
 
-        setContacts((prev_state) =>
-            prev_state.map((chat) => {
+        setContacts((prev_state) => {
+            if (!prev_state) return prev_state;
+
+            const updated = prev_state.map((chat) => {
                 if (Number(chat.id) === Number(chat_id)) {
                     return {
                         ...chat,
-                        messages: [...chat.messages, new_message]
+                        messages: [...chat.messages, new_message],
+                        last_message_at: Date.now()
                     };
                 }
                 return chat;
-            })
-        );
+            });
+
+            updated.sort((a, b) => b.last_message_at - a.last_message_at);
+
+            return updated;
+        });
+    }
+
+    function deleteMessage(messageId) {
+        setContacts((prev_state) => {
+            if (!prev_state) return prev_state;
+
+            const updated = prev_state.map((chat) => {
+                if (Number(chat.id) === Number(chat_id)) {
+                    return {
+                        ...chat,
+                        messages: chat.messages.filter(msg => msg.id !== messageId),
+                        last_message_at: Date.now()
+                    };
+                }
+                return chat;
+            });
+
+            return updated;
+        });
     }
 
     function loadChatDetail() {
@@ -84,8 +123,10 @@ const ChatScreen = () => {
     useEffect(loadChatDetail, [chat_id, contacts]);
     useEffect(loadContacts, []);
 
+    const isChatActive = chat_id && chatDetail;
+
     return (
-        <div className="chat-screen">
+        <div className={`chat-screen ${isChatActive ? 'chat-active' : ''}`}>
             <div className="chat-list-container">
                 {loading && (
                     <span className="loading-text">Cargando contactos...</span>
@@ -113,6 +154,7 @@ const ChatScreen = () => {
                     <ChatDetail
                         chatDetail={chatDetail}
                         createNewMessage={createNewMessage}
+                        deleteMessage={deleteMessage}
                     />
                 )}
 

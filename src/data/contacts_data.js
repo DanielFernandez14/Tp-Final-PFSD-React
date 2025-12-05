@@ -4,6 +4,7 @@ const contacts = [
         user_id: 1,
         author_name: "Pepe",
         user_name: "Pepe",
+        read: true,
         profile_pic: "https://img.freepik.com/vector-gratis/icono-personaje-tecnologia-robot-ai_24877-83742.jpg?semt=ais_hybrid&w=740&q=80",
         last_connection: "Hoy 15:34",
         isConected: false,
@@ -15,7 +16,8 @@ const contacts = [
                 author_name: "Pepe",
                 created_at: "Hoy",
                 status: "visto",
-                sender: "contact"
+                sender: "contact",
+                read: true
             }
         ]
     },
@@ -24,6 +26,7 @@ const contacts = [
         user_id: 2,
         author_name: "Josh",
         user_name: "Josh",
+        read: false,
         profile_pic: "https://img.freepik.com/vector-gratis/icono-personaje-tecnologia-robot-ai_24877-83742.jpg?semt=ais_hybrid&w=740&q=80",
         last_connection: "Hoy 16:24",
         isConected: false,
@@ -35,7 +38,8 @@ const contacts = [
                 author_name: "Josh",
                 created_at: "Hoy",
                 status: "Visto",
-                sender: "contact" 
+                sender: "contact",
+                read: false
             }
         ]
     }
