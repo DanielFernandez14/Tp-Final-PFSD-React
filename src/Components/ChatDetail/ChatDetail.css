@@ -17,7 +17,6 @@
 }
 
 .back-button {
-    display: none;
     background: none;
     border: none;
     color: #e9edef;
@@ -42,6 +41,14 @@
 
 .back-button:active {
     background-color: #2a3942;
+}
+
+.chat-header-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 .chat-header h2 {
@@ -126,6 +133,11 @@
         margin: -8px 0 -8px -4px;
     }
 
+    .chat-header-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
     .messages-container {
         padding: 16px;
     }
@@ -145,6 +157,11 @@
         font-size: 24px;
         width: 34px;
         height: 34px;
+    }
+
+    .chat-header-avatar {
+        width: 28px;
+        height: 28px;
     }
 
     .messages-container {

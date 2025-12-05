@@ -45,7 +45,6 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
 
     const handleSendMessage = (text) => {
         const newCount = messageCount + 1;
-        
         createNewMessage(text, 'me');
         setMessageCount(newCount);
         setAutoReplyActive(true);
@@ -64,18 +63,34 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
         deleteMessage(messageId);
     };
 
+    const contactName =
+        chatDetail.user_name || chatDetail.author_name || chatDetail.name || 'Contacto';
+
     return (
         <div className="chat-detail">
             <div className="chat-header">
-                <button className="back-button" onClick={handleBackClick} aria-label="Volver">
+                <button
+                    className="back-button"
+                    onClick={handleBackClick}
+                    aria-label="Volver"
+                >
                     ←
                 </button>
-                <h2>{chatDetail.user_name || chatDetail.author_name || chatDetail.name}</h2>
+
+                {chatDetail.profile_pic && (
+                    <img
+                        src={chatDetail.profile_pic}
+                        alt={contactName}
+                        className="chat-header-avatar"
+                    />
+                )}
+
+                <h2>{contactName}</h2>
             </div>
 
             <div className="messages-container">
                 <div className="messages-container-inner">
-                    <MessagesList 
+                    <MessagesList
                         messages={chatDetail.messages}
                         onDeleteMessage={handleDeleteMessage}
                     />
@@ -85,7 +100,7 @@ const ChatDetail = ({ chatDetail, createNewMessage, deleteMessage }) => {
                         onReply={handleAutoReply}
                         messageCount={messageCount}
                     />
-                    
+
                     <div ref={messagesEndRef} />
                 </div>
             </div>
