@@ -16,7 +16,6 @@ Simula conversaciones entre un usuario y sus contactos, permitiendo:
 
 - **Nombre:** Daniel Matías Fernández (DanoDev)   
 - **Trabajo Práctico:** Chat UTN – Frontend con React
-- 
 ---
 
 ## 🛠 Tecnologías utilizadas
