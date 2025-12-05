@@ -1,16 +1,81 @@
-# React + Vite
+# 💬 Chat UTN
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de mensajería tipo chat, desarrollada como **Trabajo Práctico Final**.
+Simula conversaciones entre un usuario y sus contactos, permitiendo:
 
-Currently, two official plugins are available:
+- Ver una lista de contactos.
+- Abrir un chat individual.
+- Enviar y recibir mensajes simulados.
+- Ver estados conectado / ultima conexión.
+- Gestionar contactos (crear, editar, ver información).
+- Respuestas automáticas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Autor
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Nombre:** Daniel Matías Fernández (DanoDev)   
+- **Trabajo Práctico:** Chat UTN – Frontend con React
+- 
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tecnologías utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React** con componentes funcionales
+- **React Router** (navegación entre chats mediante `chat_id`)
+- **Custom Hooks** (`useChatManager`) para manejar la lógica del chat
+- **JavaScript ES6+**
+- **CSS** modularizado por componente (`.css` en cada carpeta)
+- Mock de datos en archivos JavaScript (sin backend real)
+
+> Los datos de contactos y mensajes se manejan **en memoria**, usando servicios y archivos de datos locales. No hay base de datos ni API externa.
+
+---
+
+## ✅ Requisitos previos
+
+Antes de instalar el proyecto asegurate de tener:
+
+- **Node.js** ≥ 18  
+- **npm** (incluido con Node) o algún otro gestor de paquetes (yarn, pnpm)
+
+Verificación rápida:
+
+```bash
+node -v
+npm -v
+```
+
+Instalación
+
+Clonar el repositorio  -> git clone https://github.com/DanielFernandez14/Tp-Final-PFSD-React
+cd chat-utn
+
+Instalar dependencias -> npm install
+
+Ejecución del proyecto -> npm run dev - Abrir en http://localhost:5173
+
+
+
+
+💻 **Uso de la aplicación (flujo básico)**
+
+1) Iniciar el entorno de desarrollo (npm run dev o npm start según el caso).
+
+2) Abrir el navegador en la URL correspondiente (ej.: http://localhost:5173).
+
+3) En la columna izquierda: 
+Ver la lista de contactos.
+Usar la barra de búsqueda para filtrar.
+Hacer clic en un contacto para abrir el chat.
+
+4) En el panel derecho:
+Ver el historial de mensajes con ese contacto.
+Escribir un mensaje en el formulario de envío y presionar “Enviar”.
+
+5) Desde el encabezado o panel de info:
+Ver detalles del contacto.
+Editar datos básicos.
+Eliminar el contacto si es necesario.
+
+6) Desde Agregar Contacto:
