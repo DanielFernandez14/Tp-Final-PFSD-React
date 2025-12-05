@@ -91,8 +91,52 @@
 .chat-item-info {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
+/* fila superior: nombre + último mensaje a la derecha */
+.chat-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.chat-item-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #e9edef;
+}
+
+/* preview del último mensaje (siempre a la derecha, también en mobile) */
+.chat-item-last-message {
+    max-width: 45%;
+    font-size: 13px;
+    color: #8696a0;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* fila inferior: estado (en línea / última conexión) */
+.chat-item-bottom {
+    display: flex;
+    align-items: center;
+}
+
+.chat-item-status {
+    font-size: 13px;
+    color: #8696a0;
+}
+
+.chat-item-status--online {
+    color: #25d366;
+}
+
+/* compat con tu estructura anterior */
 .chat-item-info h2 {
     color: #e9edef;
     font-size: 16px;
@@ -129,7 +173,8 @@
     flex-shrink: 0;
 }
 
-/* Responsive */
+/* ------- RESPONSIVE ------- */
+
 @media (max-width: 768px) {
     .chat-list-header {
         padding: 14px 16px;
@@ -152,17 +197,22 @@
         height: 45px;
     }
 
-    .chat-item-info h2 {
+    .chat-item-info h2,
+    .chat-item-name {
         font-size: 15px;
     }
 
-    .chat-item-info span {
+    .chat-item-info span,
+    .chat-item-status,
+    .chat-item-last-message {
         font-size: 12px;
     }
 
     .chat-item-link {
         padding: 10px 12px;
     }
+
+    /* NO cambiamos flex-direction, así el último mensaje sigue a la derecha */
 }
 
 @media (max-width: 480px) {
@@ -187,11 +237,14 @@
         height: 42px;
     }
 
-    .chat-item-info h2 {
+    .chat-item-info h2,
+    .chat-item-name {
         font-size: 14px;
     }
 
-    .chat-item-info span {
+    .chat-item-info span,
+    .chat-item-status,
+    .chat-item-last-message {
         font-size: 11px;
     }
 }
