@@ -100,3 +100,37 @@
 .contact-info-save-btn:hover {
     background-color: #029c7d;
 }
+.contact-info-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #2a3942;
+    display: flex;
+    gap: 12px;
+}
+
+.contact-info-save-btn,
+.contact-info-delete-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.contact-info-save-btn {
+    background-color: #00a884;
+    color: #ffffff;
+}
+
+.contact-info-save-btn:hover {
+    background-color: #029c7d;
+}
+
+.contact-info-delete-btn {
+    background-color: #e53935;
+    color: #ffffff;
+}
+
+.contact-info-delete-btn:hover {
+    background-color: #c62828;
+}

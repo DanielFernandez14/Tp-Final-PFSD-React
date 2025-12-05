@@ -4,8 +4,6 @@ import { getContacts } from '../../Servicios/contactServices';
 import { useParams } from 'react-router-dom';
 import ChatDetail from '../../Components/ChatDetail/ChatDetail';
 import './ChatScreen.css';
-
-// 🔹 NUEVO: importamos el panel lateral de info
 import ContactInfoPanel from '../../Components/ContactInfoPanel/ContactInfoPanel';
 
 const ChatScreen = () => {
@@ -14,7 +12,6 @@ const ChatScreen = () => {
     const [error, setError] = useState(null);
     const [chatDetail, setChatDetail] = useState(null);
 
-    // 🔹 NUEVO: controlar si se muestra el panel de información
     const [showContactInfo, setShowContactInfo] = useState(false);
 
     const { chat_id } = useParams();
@@ -181,7 +178,6 @@ const ChatScreen = () => {
             return prevChatDetail;
         });
 
-
         setShowContactInfo(false);
     }
 
@@ -246,6 +242,7 @@ const ChatScreen = () => {
                         contact={chatDetail}
                         onClose={handleCloseContactInfo}
                         onSave={handleEditContact}
+                        onDelete={handleDeleteContact}   
                     />
                 )}
             </div>

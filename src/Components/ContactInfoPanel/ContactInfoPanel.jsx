@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ContactInfoPanel.css';
 
-const ContactInfoPanel = ({ contact, onClose, onSave }) => {
+const ContactInfoPanel = ({ contact, onClose, onSave, onDelete }) => {
     const [editedName, setEditedName] = useState(
         contact.user_name || contact.author_name || contact.name || ''
     );
@@ -19,6 +19,12 @@ const ContactInfoPanel = ({ contact, onClose, onSave }) => {
             user_name: editedName
         });
         onClose();
+    };
+
+    const handleDelete = () => {
+        if (onDelete) {
+            onDelete(contact.id);
+        }
     };
 
     return (
@@ -58,6 +64,14 @@ const ContactInfoPanel = ({ contact, onClose, onSave }) => {
             </div>
 
             <div className="contact-info-footer">
+                <button
+                    type="button"
+                    className="contact-info-delete-btn"
+                    onClick={handleDelete}
+                >
+                    Eliminar contacto
+                </button>
+
                 <button
                     type="button"
                     className="contact-info-save-btn"
